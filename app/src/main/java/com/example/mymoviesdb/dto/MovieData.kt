@@ -1,4 +1,4 @@
-package com.example.mymoviesdb
+package com.example.mymoviesdb.dto
 
 data class MovieData(
     val page: Int,

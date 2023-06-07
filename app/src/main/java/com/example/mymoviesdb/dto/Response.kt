@@ -1,4 +1,4 @@
-package com.example.mymoviesdb
+package com.example.mymoviesdb.dto
 
 sealed class Response<out T>{
     object Loading : Response<Nothing>()

@@ -1,8 +1,15 @@
 package com.example.mymoviesdb
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mymoviesdb.dto.Cast
+import com.example.mymoviesdb.dto.MovieData
+import com.example.mymoviesdb.dto.Response
+import com.example.mymoviesdb.dto.Result
+import com.example.mymoviesdb.navigation.screen.DetailsMovieScreen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -11,7 +18,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class MovieViewModel : ViewModel() {
 
     private val _moviesFlow =
@@ -19,8 +25,20 @@ class MovieViewModel : ViewModel() {
     val moviesFlow: StateFlow<Response<List<Result>>> =
         _moviesFlow
 
+    private val _searchFlow =
+        MutableStateFlow<Response<List<Result>>>(Response.Loading)
+    val searchFlow: StateFlow<Response<List<Result>>> =
+        _searchFlow
+
+    private val _castFlow =
+        MutableStateFlow<Response<List<Cast>>>(Response.Loading)
+    val castFlow: StateFlow<Response<List<Cast>>> =
+        _castFlow
+
 
     private var moviesEndPoint: MoviesEndPoint
+
+    var detailsMovie : Result? = null
 
     init {
         val builderOkHttp = OkHttpClient.Builder().addInterceptor(
@@ -56,6 +74,52 @@ class MovieViewModel : ViewModel() {
                 Log.e("MovieViewModel", "Error: ${e.message}")
             }
         }
+    }
+
+    fun getSearchedMovie(userSearch: String?) {
+        viewModelScope.launch {
+            try {
+                val response = moviesEndPoint.searchMovies(query = userSearch.orEmpty())
+                if (response.isSuccessful) {
+                    val moviesResponse = response.body()
+                    if (moviesResponse != null) {
+                        _searchFlow.value =
+                            Response.Success(response.code(), moviesResponse.results)
+                    } else {
+                        _searchFlow.value = Response.Error(response.code(), "Empty response body")
+                    }
+                } else {
+                    _searchFlow.value = Response.Error(response.code(), response.message())
+                }
+            } catch (e: Exception) {
+                _searchFlow.value = Response.Error(500, "There was an error")
+                Log.e("MovieViewModel", "Error: ${e.message}")
+            }
+        }
+
+    }
+
+    fun getCast(movieId: Int?) {
+        viewModelScope.launch {
+            try {
+                val response = moviesEndPoint.getMovieCast()
+                if (response.isSuccessful) {
+                    val moviesResponse = response.body()
+                    if (moviesResponse != null) {
+                        _castFlow.value =
+                            Response.Success(response.code(), moviesResponse.cast)
+                    } else {
+                        _castFlow.value = Response.Error(response.code(), "Empty response body")
+                    }
+                } else {
+                    _castFlow.value = Response.Error(response.code(), response.message())
+                }
+            } catch (e: Exception) {
+                _castFlow.value = Response.Error(500, "There was an error")
+                Log.e("MovieViewModel", "Error: ${e.message}")
+            }
+        }
+
     }
 }
 

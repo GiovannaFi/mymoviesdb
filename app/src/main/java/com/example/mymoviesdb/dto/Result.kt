@@ -1,4 +1,4 @@
-package com.example.mymoviesdb
+package com.example.mymoviesdb.dto
 
 data class Result(
     val adult: Boolean?,
@@ -6,7 +6,7 @@ data class Result(
     val genre_ids: List<Int>?,
     val id: Int?,
     val original_language: String?,
-    val original_title: String?,
+    val original_title: String,
     val overview: String?,
     val popularity: Double?,
     val poster_path: String?,
