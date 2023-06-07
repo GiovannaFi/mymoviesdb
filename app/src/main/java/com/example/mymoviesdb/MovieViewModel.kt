@@ -99,10 +99,10 @@ class MovieViewModel : ViewModel() {
 
     }
 
-    fun getCast(movieId: Int?) {
+    fun getCast(movieId: Int) {
         viewModelScope.launch {
             try {
-                val response = moviesEndPoint.getMovieCast()
+                val response = moviesEndPoint.getMovieCast(movieId)
                 if (response.isSuccessful) {
                     val moviesResponse = response.body()
                     if (moviesResponse != null) {
