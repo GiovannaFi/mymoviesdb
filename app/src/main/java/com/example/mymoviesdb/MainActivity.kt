@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "home") {
                 composable("home") { BottomNavigationScreen(viewModel, navController) }
-                composable("details") { DetailsMovieScreen().ScreenMain(viewModel) }
+                composable("details") { DetailsMovieScreen().ScreenMain(viewModel, navController) }
             }
         }
 

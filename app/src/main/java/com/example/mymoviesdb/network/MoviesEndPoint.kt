@@ -1,7 +1,8 @@
-package com.example.mymoviesdb
+package com.example.mymoviesdb.network
 
-import com.example.mymoviesdb.dto.CreditsData
-import com.example.mymoviesdb.dto.MovieData
+import com.example.mymoviesdb.network.dto.CreditsData
+import com.example.mymoviesdb.network.dto.MovieData
+import com.example.mymoviesdb.network.dto.SimilarData
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -30,4 +31,12 @@ interface MoviesEndPoint {
         @Path("id") movieId: Int,
         @Query("api_key") apiKey: String = APY_KEY
     ): Response<CreditsData>
+
+    @GET("movie/{id}/similar")
+    suspend fun getRelatedMovies(
+        @Path("id") movieId: Int,
+        @Query("api_key") apiKey: String = APY_KEY
+    ): Response<SimilarData>
+
+
 }

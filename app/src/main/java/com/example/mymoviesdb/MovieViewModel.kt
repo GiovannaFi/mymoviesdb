@@ -5,11 +5,12 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mymoviesdb.dto.Cast
-import com.example.mymoviesdb.dto.MovieData
-import com.example.mymoviesdb.dto.Response
-import com.example.mymoviesdb.dto.Result
+import com.example.mymoviesdb.network.dto.Cast
+import com.example.mymoviesdb.network.dto.MovieData
+import com.example.mymoviesdb.network.dto.Response
+import com.example.mymoviesdb.network.dto.Result
 import com.example.mymoviesdb.navigation.screen.DetailsMovieScreen
+import com.example.mymoviesdb.network.MoviesEndPoint
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -34,6 +35,11 @@ class MovieViewModel : ViewModel() {
         MutableStateFlow<Response<List<Cast>>>(Response.Loading)
     val castFlow: StateFlow<Response<List<Cast>>> =
         _castFlow
+
+    private val _similarFlow =
+        MutableStateFlow<Response<List<Result>>>(Response.Loading)
+    val similarFlow: StateFlow<Response<List<Result>>> =
+        _similarFlow
 
 
     private var moviesEndPoint: MoviesEndPoint
@@ -108,6 +114,29 @@ class MovieViewModel : ViewModel() {
                     if (moviesResponse != null) {
                         _castFlow.value =
                             Response.Success(response.code(), moviesResponse.cast)
+                    } else {
+                        _castFlow.value = Response.Error(response.code(), "Empty response body")
+                    }
+                } else {
+                    _castFlow.value = Response.Error(response.code(), response.message())
+                }
+            } catch (e: Exception) {
+                _castFlow.value = Response.Error(500, "There was an error")
+                Log.e("MovieViewModel", "Error: ${e.message}")
+            }
+        }
+
+    }
+
+    fun getSimilarMovies(movieId: Int) {
+        viewModelScope.launch {
+            try {
+                val response = moviesEndPoint.getRelatedMovies(movieId)
+                if (response.isSuccessful) {
+                    val moviesResponse = response.body()
+                    if (moviesResponse != null) {
+                        _similarFlow.value =
+                            Response.Success(response.code(), moviesResponse.results)
                     } else {
                         _castFlow.value = Response.Error(response.code(), "Empty response body")
                     }

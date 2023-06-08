@@ -92,4 +92,11 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha10'
 
 
+    def koin_version = '3.4.0'
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-android-compat:$koin_version"
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+
+
 }

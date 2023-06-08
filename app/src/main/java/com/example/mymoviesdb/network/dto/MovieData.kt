@@ -1,4 +1,4 @@
-package com.example.mymoviesdb.dto
+package com.example.mymoviesdb.network.dto
 
 data class MovieData(
     val page: Int,
