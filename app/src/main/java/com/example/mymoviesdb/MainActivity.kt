@@ -11,6 +11,7 @@ import coil.Coil
 import coil.ImageLoader
 import com.example.mymoviesdb.navigation.screen.BottomNavigationScreen
 import com.example.mymoviesdb.navigation.screen.DetailsMovieScreen
+import com.example.mymoviesdb.navigation.screen.FavoritesScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -32,7 +33,8 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "home") {
                 composable("home") { BottomNavigationScreen(viewModel, navController) }
-                composable("details") { DetailsMovieScreen().ScreenMain(viewModel, navController) }
+                composable("details") { DetailsMovieScreen().ScreenMain(viewModel, navController)}
+                composable("favorites") { FavoritesScreen().ScreenMain()}
             }
         }
 
