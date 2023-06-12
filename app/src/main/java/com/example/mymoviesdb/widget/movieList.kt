@@ -25,11 +25,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.example.mymoviesdb.R
 import com.example.mymoviesdb.SharedImplementation
 import com.example.mymoviesdb.network.dto.Result
 import com.example.mymoviesdb.ui.theme.PurpleDark
@@ -76,8 +78,7 @@ fun MovieList(
                     CoilImage(movie.poster_path, defaultImage)
                     Box(
                         modifier = Modifier
-                            .padding(12.dp)
-                            .clickable { /* Aggiungi azione al clic */ },
+                            .padding(12.dp),
                         contentAlignment = Alignment.BottomStart
                     ) {
                         Text(
@@ -107,7 +108,7 @@ fun MovieList(
                 ) {
                     Icon(
                         imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                        contentDescription = "Favorite",
+                        contentDescription = stringResource(R.string.favorites),
                         tint = if (isLiked) PurpleDark else Color.White
                     )
                 }
@@ -116,7 +117,6 @@ fun MovieList(
         }
     }
 }
-
 
 
 @Composable
@@ -143,7 +143,7 @@ fun CoilImage(posterPath: String?, defaultImage: Int) {
         if (painter != null) {
             Image(
                 painter = painter,
-                contentDescription = "Movie Poster",
+                contentDescription = stringResource(R.string.movie_poster),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
@@ -162,7 +162,7 @@ fun CoilImage(posterPath: String?, defaultImage: Int) {
         } else {
             Image(
                 painter = painterResource(defaultImage),
-                contentDescription = "Default Movie Poster",
+                contentDescription = stringResource(R.string.default_movie_poster),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )

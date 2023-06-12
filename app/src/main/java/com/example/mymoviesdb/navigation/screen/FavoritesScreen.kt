@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -158,7 +159,7 @@ fun CoilImageFavs(posterPath: String?, defaultImage: Int) {
         if (painter != null) {
             Image(
                 painter = painter,
-                contentDescription = "Movie Poster",
+                contentDescription = stringResource(R.string.movie_poster),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
@@ -179,7 +180,7 @@ fun CoilImageFavs(posterPath: String?, defaultImage: Int) {
         } else {
             Image(
                 painter = painterResource(defaultImage),
-                contentDescription = "Default Movie Poster",
+                contentDescription = stringResource(R.string.default_movie_poster),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )

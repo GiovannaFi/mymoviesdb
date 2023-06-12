@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -48,7 +49,7 @@ class PopularMoviesScreen {
             is Response.Success -> {
                 Column(modifier = Modifier.padding(bottom = 56.dp)) {
                     Text(
-                        text = "Film popolari oggi",
+                        text = stringResource(R.string.popular_movies),
                         fontSize = 28.sp,
                         fontFamily = fontFamily,
                         fontWeight = FontWeight.Bold,
@@ -67,7 +68,7 @@ class PopularMoviesScreen {
                 }
             }
             is Response.Error -> {
-                Toast.makeText(LocalContext.current, "Ritenta", Toast.LENGTH_SHORT).show()
+                Toast.makeText(LocalContext.current, stringResource(R.string.retry), Toast.LENGTH_SHORT).show()
                 Log.e("MainActivity", "Error: ${resultFlow.message}")
             }
         }

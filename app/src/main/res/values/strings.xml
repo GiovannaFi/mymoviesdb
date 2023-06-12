@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">MyMoviesDb</string>
+    <string name="find_film">Cerca un film:</string>
+    <string name="search_icon">Icona di ricerca</string>
+    <string name="search_movie_bar">Cerca un film</string>
+    <string name="cast">CAST:</string>
+    <string name="similar_movies">FILM SIMILI:</string>
+    <string name="full_stars">Full Star</string>
+    <string name="half_stars">Half Star</string>
+    <string name="empty_star">Empty Star</string>
+    <string name="retry">Ritenta</string>
+    <string name="movie_poster">Movie Poster</string>
+    <string name="default_movie_poster">Default Movie Poster</string>
+    <string name="popular_movies">Film popolari oggi</string>
+    <string name="cast_poster">cast Poster</string>
+    <string name="default_cast_poster">Default cast Poster</string>
+    <string name="favorites">Favorite</string>
 </resources>

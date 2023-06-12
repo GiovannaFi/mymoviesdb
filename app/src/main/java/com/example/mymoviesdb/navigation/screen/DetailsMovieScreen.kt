@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -113,9 +114,9 @@ class DetailsMovieScreen {
             }
 
             Text(
-                text = "CAST:",
+                text = stringResource(R.string.cast),
                 style = TextStyle(
-                    color = Color.Gray,
+                    color = Color.Black,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 ),
@@ -124,9 +125,9 @@ class DetailsMovieScreen {
             CastDetails(viewModel, details?.id)
 
             Text(
-                text = "FILM SIMILI:",
+                text = stringResource(R.string.similar_movies),
                 style = TextStyle(
-                    color = Color.Gray,
+                    color = Color.Black,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 ),
@@ -155,21 +156,21 @@ fun RatingStars(vote: Double) {
         repeat(fullStars) {
             Icon(
                 imageVector = fullStarIcon,
-                contentDescription = "Full Star"
+                contentDescription = stringResource(R.string.full_stars)
             )
         }
 
         if (hasHalfStar) {
             Icon(
                 imageVector = halfStar,
-                contentDescription = "Half Star"
+                contentDescription = stringResource(R.string.half_stars)
             )
         }
 
         repeat(remainingStars) {
             Icon(
                 imageVector = emptyStarIcon,
-                contentDescription = "Empty Star"
+                contentDescription = stringResource(R.string.empty_star)
             )
         }
     }
@@ -198,7 +199,8 @@ fun CastDetails(viewModel: MovieViewModel?, movieId: Int?) {
             }
         }
         is Response.Error -> {
-            Toast.makeText(LocalContext.current, "Ritenta", Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current, stringResource(R.string.retry), Toast.LENGTH_SHORT)
+                .show()
             Log.e("MainActivity", "Error: ${resultFlow.message}")
         }
         else -> {}
@@ -231,10 +233,14 @@ fun RelatedMovies(viewModel: MovieViewModel?, movieId: Int?, navController: NavC
             }
         }
         is Response.Error -> {
-            Toast.makeText(LocalContext.current, "Ritenta", Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current, stringResource(R.string.retry), Toast.LENGTH_SHORT)
+                .show()
             Log.e("MainActivity", "Error: ${resultFlow.message}")
         }
-        else -> {}
+        else -> {
+            Toast.makeText(LocalContext.current, stringResource(R.string.retry), Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 }
 
