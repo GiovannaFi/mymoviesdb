@@ -2,7 +2,10 @@ package com.example.mymoviesdb.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+
+val PurpleDark = Color(0xFF8c2791)
+val PurpleLight = Color(0xFFb884ba)
+val LightGreen = Color(0xFFd6ffed)
+val MyLightGreen = Color(0xFF02ba8f)
+val MyDarkGrey = Color(0xFF303030)
+

@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.mymoviesdb.SharedImplementation
 import com.example.mymoviesdb.network.dto.Result
+import com.example.mymoviesdb.ui.theme.PurpleDark
 
 
 @Composable
@@ -107,7 +108,7 @@ fun MovieList(
                     Icon(
                         imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = "Favorite",
-                        tint = if (isLiked) Color.Red else Color.White
+                        tint = if (isLiked) PurpleDark else Color.White
                     )
                 }
 

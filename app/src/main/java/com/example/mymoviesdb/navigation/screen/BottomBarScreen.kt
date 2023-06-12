@@ -1,7 +1,9 @@
 package com.example.mymoviesdb.navigation.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -9,6 +11,8 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.mymoviesdb.MovieViewModel
@@ -17,28 +21,30 @@ import com.example.mymoviesdb.MovieViewModel
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun BottomNavigationScreen(viewModel: MovieViewModel, navController: NavController) {
-    var selectedItem by remember { mutableStateOf("home") }
+
+    val selectedItem = viewModel.saveScreen.collectAsState()
 
     Scaffold(
         bottomBar = {
             BottomNavigation(
                 modifier = Modifier.height(56.dp)
+
             ) {
                 BottomNavigationItem(
-                    selected = selectedItem == "home",
-                    onClick = { selectedItem = "home" },
+                    selected = selectedItem.value == "home",
+                    onClick = { viewModel.saveScreen.value = "home" },
                     label = { Text("Home") },
                     icon = { Icon(Icons.Default.Home, contentDescription = "Home") }
                 )
                 BottomNavigationItem(
-                    selected = selectedItem == "search",
-                    onClick = { selectedItem = "search" },
+                    selected = selectedItem.value == "search",
+                    onClick = { viewModel.saveScreen.value =  "search" },
                     label = { Text("search") },
                     icon = { Icon(Icons.Default.Search, contentDescription = "search") }
                 )
                 BottomNavigationItem(
-                    selected = selectedItem == "favorites",
-                    onClick = { selectedItem = "favorites" },
+                    selected = selectedItem.value == "favorites",
+                    onClick = {  viewModel.saveScreen.value =  "favorites" },
                     label = { Text("preferiti") },
                     icon = { Icon(Icons.Default.FavoriteBorder, contentDescription = "favorites") }
                 )
@@ -46,7 +52,7 @@ fun BottomNavigationScreen(viewModel: MovieViewModel, navController: NavControll
             }
         },
         content = {
-            when (selectedItem) {
+            when (selectedItem.value) {
                 "home" -> {
                     PopularMoviesScreen().screenMain(viewModel, navController)
 

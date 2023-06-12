@@ -3,6 +3,7 @@ package com.example.mymoviesdb.navigation.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -14,9 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -26,11 +26,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.mymoviesdb.R
 import com.example.mymoviesdb.SharedImplementation
+import com.example.mymoviesdb.ui.theme.PurpleDark
+import com.example.mymoviesdb.ui.theme.PurpleLight
 
 class FavoritesScreen {
     @Composable
@@ -38,20 +41,43 @@ class FavoritesScreen {
         val defaultImage = R.drawable.img_1
         val context = LocalContext.current
         val sharedImplementation = SharedImplementation(context)
+        val gradientBrush = Brush.verticalGradient(
+            colors = if (isSystemInDarkTheme()) listOf(
+                PurpleDark,
+                Color.Black
+            ) else listOf(PurpleLight, Color.White)
+        )
 
         val selectedMovies =
-            remember { mutableStateListOf<com.example.mymoviesdb.network.dto.Result>() }
-        val favorites = sharedImplementation.getSelectedMovies()
-        selectedMovies.addAll(favorites)
+            remember { sharedImplementation.getSelectedMovies().toMutableStateList() }
 
-        LaunchedEffect(favorites) {
-            selectedMovies.clear()
-            selectedMovies.addAll(favorites)
+
+        if (selectedMovies.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(brush = gradientBrush),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Lista dei preferiti vuota",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Thin,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
 
-        LazyColumn(modifier = Modifier.padding(bottom = 56.dp)) {
+        LazyColumn(
+            modifier = Modifier
+                .padding(bottom = 56.dp)
+                .fillMaxHeight()
+                .background(brush = gradientBrush)
+        ) {
             itemsIndexed(selectedMovies) { index, movie ->
                 val isLiked = selectedMovies.any { it.id == movie.id }
+
+
 
                 Card(
                     modifier = Modifier
@@ -79,38 +105,32 @@ class FavoritesScreen {
                     Box(
                         modifier = Modifier
                             .padding(8.dp)
-                            .size(32.dp)
-                            .clickable {
-                                val updatedSelectedMovies = if (isLiked) {
-                                    selectedMovies
-                                        .toMutableList()
-                                        .apply {
-                                            remove(movie)
-                                        }
-                                } else {
-                                    selectedMovies
-                                        .toMutableList()
-                                        .apply {
-                                            add(movie)
-                                        }
-                                }
-                                selectedMovies.clear()
-                                selectedMovies.addAll(updatedSelectedMovies)
-                                sharedImplementation.saveFavorites(updatedSelectedMovies)
-                            },
+                            .size(32.dp),
                         contentAlignment = Alignment.BottomEnd
                     ) {
                         Icon(
-                            modifier = Modifier.size(35.dp),
+                            modifier = Modifier
+                                .size(35.dp)
+                                .clickable {
+                                    if (isLiked) {
+                                        selectedMovies.remove(movie)
+
+                                    } else {
+                                        selectedMovies.add(movie)
+                                    }
+
+                                    sharedImplementation.saveFavorites(selectedMovies)
+                                },
                             imageVector = if (isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             contentDescription = "Favorite",
 
-                            tint = if (isLiked) Color.Red else Color.White
+                            tint = if (isLiked) PurpleDark else Color.White
                         )
                     }
                 }
             }
         }
+
     }
 }
 

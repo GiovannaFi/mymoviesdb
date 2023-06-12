@@ -1,16 +1,12 @@
 package com.example.mymoviesdb
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mymoviesdb.network.MoviesEndPoint
 import com.example.mymoviesdb.network.dto.Cast
-import com.example.mymoviesdb.network.dto.MovieData
 import com.example.mymoviesdb.network.dto.Response
 import com.example.mymoviesdb.network.dto.Result
-import com.example.mymoviesdb.navigation.screen.DetailsMovieScreen
-import com.example.mymoviesdb.network.MoviesEndPoint
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -20,6 +16,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MovieViewModel : ViewModel() {
+
+    val saveScreen = MutableStateFlow("home")
 
     private val _moviesFlow =
         MutableStateFlow<Response<List<Result>>>(Response.Loading)
@@ -44,7 +42,7 @@ class MovieViewModel : ViewModel() {
 
     private var moviesEndPoint: MoviesEndPoint
 
-    var detailsMovie : Result? = null
+    var detailsMovie: Result? = null
 
     init {
         val builderOkHttp = OkHttpClient.Builder().addInterceptor(

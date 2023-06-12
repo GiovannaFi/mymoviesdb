@@ -12,16 +12,16 @@ import coil.ImageLoader
 import com.example.mymoviesdb.navigation.screen.BottomNavigationScreen
 import com.example.mymoviesdb.navigation.screen.DetailsMovieScreen
 import com.example.mymoviesdb.navigation.screen.FavoritesScreen
+import com.example.mymoviesdb.ui.theme.MyMoviesDbTheme
 
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MovieViewModel by viewModels()
-    private val defaultImage = R.drawable.img_1
-    //val selectedMovies: MutableList<Result> = mutableListOf()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
         Coil.setImageLoader {
             ImageLoader.Builder(applicationContext)
@@ -30,12 +30,15 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "home") {
-                composable("home") { BottomNavigationScreen(viewModel, navController) }
-                composable("details") { DetailsMovieScreen().ScreenMain(viewModel, navController)}
-                composable("favorites") { FavoritesScreen().ScreenMain()}
+            MyMoviesDbTheme(){
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "home") {
+                    composable("home") { BottomNavigationScreen(viewModel, navController) }
+                    composable("details") { DetailsMovieScreen().ScreenMain(viewModel, navController) }
+                    composable("favorites") { FavoritesScreen().ScreenMain() }
+                }
             }
+
         }
 
     }

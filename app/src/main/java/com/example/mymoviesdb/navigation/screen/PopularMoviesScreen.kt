@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,11 +22,15 @@ import androidx.navigation.NavController
 import com.example.mymoviesdb.MovieViewModel
 import com.example.mymoviesdb.R
 import com.example.mymoviesdb.network.dto.Response
+import com.example.mymoviesdb.ui.theme.PurpleDark
 import com.example.mymoviesdb.widget.MovieList
 
 class PopularMoviesScreen {
 
     val POPULAR_RESPONSE_KEY = "popular movies"
+    val fontFamily = FontFamily(
+        Font(R.font.myfont)
+    )
 
     @Composable
     fun screenMain(
@@ -42,12 +48,13 @@ class PopularMoviesScreen {
             is Response.Success -> {
                 Column(modifier = Modifier.padding(bottom = 56.dp)) {
                     Text(
-                        text = "Film popolari questa settimana:",
-                        fontSize = 20.sp,
+                        text = "Film popolari oggi",
+                        fontSize = 28.sp,
+                        fontFamily = fontFamily,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black,
+                        color = PurpleDark,
                         modifier = Modifier
-                            .padding(bottom = 14.dp, top = 8.dp)
+                            .padding(bottom = 8.dp, top = 20.dp)
                             .align(Alignment.CenterHorizontally)
                     )
                     MovieList(movies = resultFlow.body.orEmpty(),

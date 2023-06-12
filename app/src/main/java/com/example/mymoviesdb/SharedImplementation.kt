@@ -22,7 +22,7 @@ class SharedImplementation(context: Context) {
             ?.apply()
     }
 
-    fun getSelectedMovies(): MutableList<com.example.mymoviesdb.network.dto.Result> {
+    fun getSelectedMovies(): List<com.example.mymoviesdb.network.dto.Result> {
 
         val json = sharedPrefs.getString(FAVORITE, null)
         return if (json != null) {

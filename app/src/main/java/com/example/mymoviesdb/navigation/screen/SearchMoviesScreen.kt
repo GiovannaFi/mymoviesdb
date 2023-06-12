@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -27,12 +29,16 @@ import com.example.mymoviesdb.MovieViewModel
 import com.example.mymoviesdb.R
 import com.example.mymoviesdb.network.dto.Response
 import com.example.mymoviesdb.network.dto.Result
+import com.example.mymoviesdb.ui.theme.PurpleDark
 import com.example.mymoviesdb.widget.MovieList
 
 
 class SearchMoviesScreen {
 
     val SEARCH_RESPONSE_KEY = "popular movies"
+    val fontFamily = FontFamily(
+        Font(R.font.myfont)
+    )
 
     @Composable
     fun screenMain(viewModel: MovieViewModel, navController: NavController) {
@@ -75,14 +81,16 @@ class SearchMoviesScreen {
         Column(modifier = Modifier.padding(bottom = 56.dp)) {
             Text(
                 text = "Cerca un film:",
-                fontSize = 20.sp,
+                fontSize = 25.sp,
+                fontFamily = fontFamily,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color = PurpleDark,
                 modifier = Modifier
-                    .padding(bottom = 14.dp, top = 8.dp)
+                    .padding(bottom = 8.dp, top = 20.dp)
                     .align(Alignment.CenterHorizontally)
+
             )
-            val query = remember { mutableStateOf("") }
+            val query = remember { mutableStateOf("") }  //QUA
 
             val onQueryTextChange: (String) -> Unit = { newText ->
                 if (newText.isNotEmpty()) {
@@ -95,8 +103,9 @@ class SearchMoviesScreen {
                     .fillMaxWidth()
                     .padding(3.dp),
                 shape = RoundedCornerShape(15.dp),
-                elevation = 5.dp
-            ) {
+                elevation = 5.dp,
+
+                ) {
                 TextField(
                     value = query.value,
                     onValueChange = { value ->
@@ -114,14 +123,14 @@ class SearchMoviesScreen {
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
                                 text = "Cerca un film",
-                                style = TextStyle(color = Color.DarkGray) // Cambia il colore del testo di hint qui
+                                style = TextStyle(color = Color.DarkGray)
                             )
                         }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp) // Imposta l'altezza desiderata
-                        .background(Color.LightGray), // Imposta lo sfondo a colore blu
+                        .height(50.dp)
+                        .background(Color.White),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 )
             }

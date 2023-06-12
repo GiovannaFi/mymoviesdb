@@ -4,15 +4,13 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material.icons.filled.StarHalf
@@ -21,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -31,20 +30,35 @@ import androidx.navigation.NavController
 import com.example.mymoviesdb.MovieViewModel
 import com.example.mymoviesdb.R
 import com.example.mymoviesdb.network.dto.Response
+import com.example.mymoviesdb.ui.theme.PurpleDark
+import com.example.mymoviesdb.ui.theme.PurpleLight
 import com.example.mymoviesdb.widget.CastList
 import com.example.mymoviesdb.widget.CoilImage
 import com.example.mymoviesdb.widget.RelatedList
 
 class DetailsMovieScreen {
 
+
     @SuppressLint("SuspiciousIndentation")
     @Composable
     fun ScreenMain(viewModel: MovieViewModel?, navController: NavController) {
+        val gradientBrush = Brush.verticalGradient(
+            colors = if (isSystemInDarkTheme()) listOf(
+                PurpleDark,
+                Color.Black
+            ) else listOf(PurpleLight, Color.White)
+        )
+
+
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .fillMaxWidth()
+                .background(
+                    brush = gradientBrush
+                )
+
         ) {
             val defaultImage = R.drawable.img_1
             val details = viewModel?.detailsMovie
@@ -53,6 +67,7 @@ class DetailsMovieScreen {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
+
                 shape = RoundedCornerShape(15.dp)
             ) {
                 Row(modifier = Modifier.padding(16.dp)) {
@@ -64,11 +79,11 @@ class DetailsMovieScreen {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 16.dp)
+
                     ) {
                         Text(
                             text = details?.original_title.orEmpty(),
                             style = TextStyle(
-                                color = Color.Black,
                                 fontSize = 25.sp,
                                 fontWeight = FontWeight.Bold
                             ),
@@ -93,33 +108,6 @@ class DetailsMovieScreen {
                             ),
                             modifier = Modifier.padding(top = 4.dp)
                         )
-                        if (details?.isFavorite == true) {
-                            Row(Modifier.padding(top = 15.dp)) {
-                                Text(
-                                    text = "tra i preferiti",
-                                    style = TextStyle(
-                                        color = Color.Gray,
-                                        fontSize = 15.sp
-                                    )
-                                )
-
-                                Icon(
-                                    imageVector = Icons.Default.Favorite,
-                                    contentDescription = "preferito",
-                                    tint = Color.Red,
-                                    modifier = Modifier
-                                        .size(20.dp)
-                                        .background(
-                                            color = MaterialTheme.colors.surface,
-                                            shape = CircleShape
-                                        )
-
-                                )
-
-                            }
-                        }
-
-
                     }
                 }
             }
@@ -167,24 +155,21 @@ fun RatingStars(vote: Double) {
         repeat(fullStars) {
             Icon(
                 imageVector = fullStarIcon,
-                contentDescription = "Full Star",
-                tint = Color.Black
+                contentDescription = "Full Star"
             )
         }
 
         if (hasHalfStar) {
             Icon(
                 imageVector = halfStar,
-                contentDescription = "Half Star",
-                tint = Color.Black
+                contentDescription = "Half Star"
             )
         }
 
         repeat(remainingStars) {
             Icon(
                 imageVector = emptyStarIcon,
-                contentDescription = "Empty Star",
-                tint = Color.Black
+                contentDescription = "Empty Star"
             )
         }
     }
